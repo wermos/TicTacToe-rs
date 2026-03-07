@@ -1,13 +1,44 @@
-struct Game {
+use crate::board::Board;
+use crate::definitions::{Cell, GameResult, Player, opposite};
+
+pub struct Game {
     board: Board,
-    turn: Turn,
+    current_turn: Player,
 }
 
 impl Game {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Game {
             board: Board::new(),
-            turn: Turn::X,
+            current_turn: Player::X,
+        }
+    }
+
+    pub fn make_move(&mut self, player: Player, row: usize, col: usize) {
+        match player {
+            Player::X => self.board.set(Cell::X, row, col),
+            Player::O => self.board.set(Cell::O, row, col),
+        }
+
+        self.current_turn = opposite(self.current_turn);
+    }
+
+    pub fn board(&self) {
+        self.board
+    }
+
+    pub fn over(&self) -> bool {
+        // check that the board is not full and no one has won yet
+        !self.board.is_full() && self.board.winner().is_none()
+    }
+
+    pub fn result(&self) -> Option<GameResult> {
+        if let Some(player) = self.board.winner() {
+            Some(GameResult::Win(player))
+        } else if self.board.is_full() {
+            Some(GameResult::Draw)
+        } else {
+            None
         }
     }
 }
