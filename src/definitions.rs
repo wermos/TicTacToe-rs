@@ -12,7 +12,7 @@ impl fmt::Display for Cell {
         match &self {
             Cell::X => write!(f, "X"),
             Cell::O => write!(f, "O"),
-            Cell::None => write!(f, ""),
+            Cell::None => write!(f, " "),
         }
     }
 }

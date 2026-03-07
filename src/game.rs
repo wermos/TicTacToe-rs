@@ -23,8 +23,16 @@ impl Game {
         self.current_turn = opposite(self.current_turn);
     }
 
-    pub fn board(&self) {
+    pub fn board(&self) -> Board {
         self.board
+    }
+
+    pub fn current_player(&self) -> Player {
+        self.current_turn
+    }
+
+    pub fn print_board(&self) {
+        println!("{}", self.board);
     }
 
     pub fn over(&self) -> bool {

@@ -1,5 +1,6 @@
 use crate::definitions::Cell;
 use crate::definitions::Player;
+use std::fmt;
 
 #[derive(Clone, Copy)]
 pub struct Board {
@@ -32,6 +33,20 @@ impl Board {
         self.board.iter().flatten().all(|&cell| cell != Cell::None)
     }
 
+    pub fn empty_squares(&self) -> Vec<(usize, usize)> {
+        let mut squares = Vec::new();
+
+        for r in 0..3 {
+            for c in 0..3 {
+                if self.board[r][c] == Cell::None {
+                    squares.push((r, c));
+                }
+            }
+        }
+
+        squares
+    }
+
     pub fn winner(&self) -> Option<Player> {
         Self::POSSIBLE_WINS.iter().find_map(|line| {
             let [(r1, c1), (r2, c2), (r3, c3)] = *line;
@@ -50,5 +65,27 @@ impl Board {
                 None
             }
         })
+    }
+}
+
+impl fmt::Display for Board {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            " {} | {} | {}\n",
+            self.board[0][0], self.board[0][1], self.board[0][2]
+        );
+        write!(f, "---+---+---\n");
+        write!(
+            f,
+            " {} | {} | {}\n",
+            self.board[1][0], self.board[1][1], self.board[1][2]
+        );
+        write!(f, "---+---+---\n");
+        write!(
+            f,
+            " {} | {} | {}\n",
+            self.board[2][0], self.board[2][1], self.board[2][2]
+        )
     }
 }
