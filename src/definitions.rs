@@ -1,8 +1,20 @@
+use std::fmt;
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Cell {
     X,
     O,
     None,
+}
+
+impl fmt::Display for Cell {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            Cell::X => write!(f, "X"),
+            Cell::O => write!(f, "O"),
+            Cell::None => write!(f, ""),
+        }
+    }
 }
 
 #[derive(Clone, Copy)]
@@ -11,12 +23,20 @@ pub enum Player {
     O,
 }
 
+impl fmt::Display for Player {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            Player::X => write!(f, "X"),
+            Player::O => write!(f, "O"),
+        }
+    }
+}
+
 pub enum PlayerType {
     Human,
     AI,
 }
 
-// #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum GameResult {
     Win(Player),
     Draw,
