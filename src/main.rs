@@ -1,13 +1,15 @@
 use std::io;
+use std::io::Write;
 use std::process;
 use tictactoe_rs::automated_player::AutomatedPlayer;
 use tictactoe_rs::definitions::{GameResult, Player, PlayerType, opposite};
 use tictactoe_rs::game::Game;
 
 fn ask_player_choice() -> Player {
-    println!(
+    print!(
         "Please enter X if you want to be X (and go first) or O if you would like to go second (X/O): "
     );
+    io::stdout().flush().unwrap();
 
     let mut choice = String::new();
 
@@ -33,7 +35,8 @@ fn get_player_move() -> (usize, usize) {
     println!(" 4 | 5 | 6");
     println!("---+---+---");
     println!(" 7 | 8 | 9");
-    println!("Please enter a number between 1-9 to make your move:");
+    print!("Please enter a number between 1-9 to make your move: ");
+    io::stdout().flush().unwrap();
 
     let mut choice = String::new();
 
@@ -72,6 +75,8 @@ fn main() {
 
         game.make_move(player, row, col);
     }
+
+    game.print_board();
 
     let result = game.result().unwrap();
 
