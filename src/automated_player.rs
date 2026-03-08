@@ -31,7 +31,7 @@ impl AutomatedPlayer {
 
         let mut best_score = isize::MIN;
 
-        let cell_type = match self.player {
+        let cell_type = match player {
             Player::X => Cell::X,
             Player::O => Cell::O,
         };
