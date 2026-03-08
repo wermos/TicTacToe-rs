@@ -70,22 +70,23 @@ impl Board {
 
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
+        writeln!(
             f,
-            " {} | {} | {}\n",
+            " {} | {} | {}",
             self.board[0][0], self.board[0][1], self.board[0][2]
-        );
-        write!(f, "---+---+---\n");
-        write!(
+        )?;
+        writeln!(f, "---+---+---")?;
+        writeln!(
             f,
-            " {} | {} | {}\n",
+            " {} | {} | {}",
             self.board[1][0], self.board[1][1], self.board[1][2]
-        );
-        write!(f, "---+---+---\n");
-        write!(
+        )?;
+        writeln!(f, "---+---+---")?;
+        writeln!(
             f,
-            " {} | {} | {}\n",
+            " {} | {} | {}",
             self.board[2][0], self.board[2][1], self.board[2][2]
-        )
+        )?;
+        Ok(())
     }
 }

@@ -10,10 +10,11 @@ pub enum Cell {
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            Cell::X => write!(f, "X"),
-            Cell::O => write!(f, "O"),
-            Cell::None => write!(f, " "),
+            Cell::X => write!(f, "X")?,
+            Cell::O => write!(f, "O")?,
+            Cell::None => write!(f, " ")?,
         }
+        Ok(())
     }
 }
 
@@ -26,9 +27,10 @@ pub enum Player {
 impl fmt::Display for Player {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            Player::X => write!(f, "X"),
-            Player::O => write!(f, "O"),
+            Player::X => write!(f, "X")?,
+            Player::O => write!(f, "O")?,
         }
+        Ok(())
     }
 }
 
