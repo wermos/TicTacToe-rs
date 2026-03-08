@@ -18,7 +18,7 @@ impl fmt::Display for Cell {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Player {
     X,
     O,

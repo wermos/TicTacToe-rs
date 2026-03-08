@@ -1,6 +1,6 @@
 use crate::board::Board;
-use crate::definitions::Player;
-use rand::seq::IteratorRandom;
+use crate::definitions::{Cell, Player, opposite};
+use std::cmp;
 
 pub struct AutomatedPlayer {
     player: Player, // am I X or O?
@@ -13,14 +13,64 @@ impl AutomatedPlayer {
         }
     }
 
+    fn evaluate(board: Board, player: Player) -> isize {
+        match board.winner() {
+            Some(winner) => {
+                // defining it like this to allow for easy modification in the future
+                if winner == player { 1 } else { -1 }
+            }
+            // None means no one won, i.e. a draw.
+            None => 0,
+        }
+    }
+
+    fn negamax(&self, board: Board, player: Player) -> isize {
+        if board.is_full() || board.winner().is_some() {
+            return AutomatedPlayer::evaluate(board, player);
+        }
+
+        let mut best_score = isize::MIN;
+
+        let cell_type = match self.player {
+            Player::X => Cell::X,
+            Player::O => Cell::O,
+        };
+
+        for (row, col) in board.empty_squares() {
+            let mut new_board = board.clone();
+            new_board.set(cell_type, row, col);
+
+            let score = -self.negamax(new_board, opposite(player));
+
+            best_score = cmp::max(best_score, score);
+        }
+
+        best_score
+    }
+
     pub fn choose_move(&self, board: &Board) -> (usize, usize) {
         let empty_squares = board.empty_squares();
 
-        let (row, col) = empty_squares.iter().choose(&mut rand::rng()).unwrap();
+        let mut best_score = isize::MIN;
+        let mut best_move = (0, 0);
 
-        println!("{:?}", empty_squares);
-        println!("Random choice: ({}, {})", *row, *col);
+        let cell_type = match self.player {
+            Player::X => Cell::X,
+            Player::O => Cell::O,
+        };
 
-        (*row, *col)
+        for (row, col) in empty_squares {
+            let mut wip_board = board.clone();
+            wip_board.set(cell_type, row, col);
+
+            let score = -self.negamax(wip_board, opposite(self.player));
+
+            if score > best_score {
+                best_score = score;
+                best_move = (row, col);
+            }
+        }
+
+        best_move
     }
 }
