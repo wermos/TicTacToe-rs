@@ -17,16 +17,14 @@ fn ask_player_choice() -> Player {
         .read_line(&mut choice)
         .expect("Failed to read line");
 
-    let player = match choice.trim().to_ascii_uppercase().as_str() {
+    match choice.trim().to_ascii_uppercase().as_str() {
         "X" => Player::X,
         "O" => Player::O,
         _ => {
             eprintln!("Invalid choice. Please enter X or O.");
             process::exit(1);
         }
-    };
-
-    player
+    }
 }
 
 fn get_player_move() -> (usize, usize) {
