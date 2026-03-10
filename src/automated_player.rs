@@ -37,7 +37,7 @@ impl AutomatedPlayer {
         };
 
         for (row, col) in board.empty_squares() {
-            let mut new_board = board.clone();
+            let mut new_board = board;
             new_board.set(cell_type, row, col);
 
             let score = -self.negamax(new_board, opposite(player));
@@ -60,7 +60,7 @@ impl AutomatedPlayer {
         };
 
         for (row, col) in empty_squares {
-            let mut wip_board = board.clone();
+            let mut wip_board = *board;
             wip_board.set(cell_type, row, col);
 
             let score = -self.negamax(wip_board, opposite(self.player));
