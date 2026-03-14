@@ -28,12 +28,12 @@ fn ask_player_choice() -> Player {
 }
 
 fn get_player_move() -> (usize, usize) {
-    println!(" 1 | 2 | 3");
-    println!("---+---+---");
-    println!(" 4 | 5 | 6");
-    println!("---+---+---");
-    println!(" 7 | 8 | 9");
-    print!("Please enter a number between 1-9 to make your move: ");
+    println!(" 1 │ 2 │ 3");
+    println!("───┼───┼───");
+    println!(" 4 │ 5 │ 6");
+    println!("───┼───┼───");
+    println!(" 7 │ 8 │ 9");
+    print!("Please enter a number between 1-9 to make your move.\nYour move: ");
     io::stdout().flush().unwrap();
 
     let mut choice = String::new();
@@ -55,6 +55,8 @@ fn main() {
 
     let human = ask_player_choice();
     let ai = AutomatedPlayer::new(opposite(human));
+
+    println!("You are {}\nComputer is {}", human, opposite(human));
 
     let players = match human {
         Player::X => [(Player::X, PlayerType::Human), (Player::O, PlayerType::AI)],

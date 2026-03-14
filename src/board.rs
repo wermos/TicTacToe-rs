@@ -78,19 +78,19 @@ impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(
             f,
-            " {} | {} | {}",
+            " {} │ {} │ {}",
             self.board[0][0], self.board[0][1], self.board[0][2]
         )?;
-        writeln!(f, "---+---+---")?;
+        writeln!(f, "───┼───┼───")?;
         writeln!(
             f,
-            " {} | {} | {}",
+            " {} │ {} │ {}",
             self.board[1][0], self.board[1][1], self.board[1][2]
         )?;
-        writeln!(f, "---+---+---")?;
+        writeln!(f, "───┼───┼───")?;
         writeln!(
             f,
-            " {} | {} | {}",
+            " {} │ {} │ {}",
             self.board[2][0], self.board[2][1], self.board[2][2]
         )?;
         Ok(())
