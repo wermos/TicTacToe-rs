@@ -85,10 +85,3 @@ fn main() {
         GameResult::Draw => println!("The game was a draw."),
     }
 }
-
-// struct Players {
-//     x: PlayerType,
-//     o: PlayerType,
-// }
-
-// match players.get(player)
