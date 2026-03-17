@@ -13,20 +13,24 @@ impl AutomatedPlayer {
         }
     }
 
-    fn evaluate(board: Board, player: Player) -> isize {
+    fn evaluate(board: Board, player: Player, depth: usize) -> isize {
         match board.winner() {
             Some(winner) => {
                 // defining it like this to allow for easy modification in the future
-                if winner == player { 1 } else { -1 }
+                if winner == player {
+                    10 - (depth as isize)
+                } else {
+                    -10 + (depth as isize)
+                }
             }
             // None means no one won, i.e. a draw.
             None => 0,
         }
     }
 
-    fn negamax(&self, board: Board, player: Player) -> isize {
+    fn negamax_impl(&self, board: Board, player: Player, depth: usize) -> isize {
         if board.is_full() || board.winner().is_some() {
-            return AutomatedPlayer::evaluate(board, player);
+            return AutomatedPlayer::evaluate(board, player, depth);
         }
 
         let mut best_score = isize::MIN;
@@ -40,12 +44,16 @@ impl AutomatedPlayer {
             let mut new_board = board;
             new_board.set(cell_type, row, col);
 
-            let score = -self.negamax(new_board, opposite(player));
+            let score = -self.negamax_impl(new_board, opposite(player), depth + 1);
 
             best_score = cmp::max(best_score, score);
         }
 
         best_score
+    }
+
+    fn negamax(&self, board: Board, player: Player) -> isize {
+        self.negamax_impl(board, player, 0)
     }
 
     pub fn choose_move(&self, board: &Board) -> (usize, usize) {
