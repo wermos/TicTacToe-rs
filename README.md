@@ -6,7 +6,8 @@
 
 1. Turn `empty_squares` in `Board` into a generator/iterator. Basically, on-demand next-move generation.
   - `pub fn legal_moves(&self) -> impl Iterator<Item = Move>`
-2. Change the evaluation function from `+1/-1` for `Win/Loss` to `+10 - depth, -10 + depth` for `Win/Loss`.
+2. Move ordering
+3. alpha-beta pruning
 
 #### Performance
 
