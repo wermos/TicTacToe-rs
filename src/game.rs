@@ -1,5 +1,5 @@
 use crate::board::Board;
-use crate::definitions::{Cell, GameResult, Player, opposite};
+use crate::definitions::{Cell, GameResult, Player};
 
 pub struct Game {
     board: Board,
@@ -20,7 +20,7 @@ impl Game {
             Player::O => self.board.set(Cell::O, row, col),
         }
 
-        self.current_turn = opposite(self.current_turn);
+        self.current_turn = self.current_turn.opposite();
     }
 
     pub fn board(&self) -> Board {

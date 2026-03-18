@@ -1,5 +1,5 @@
 use crate::board::Board;
-use crate::definitions::{Cell, Player, opposite};
+use crate::definitions::Player;
 use std::cmp;
 
 pub struct AutomatedPlayer {
@@ -35,16 +35,11 @@ impl AutomatedPlayer {
 
         let mut best_score = isize::MIN;
 
-        let cell_type = match player {
-            Player::X => Cell::X,
-            Player::O => Cell::O,
-        };
-
         for (row, col) in board.empty_squares() {
             let mut new_board = board;
-            new_board.set(cell_type, row, col);
+            new_board.set(player.cell(), row, col);
 
-            let score = -self.negamax_impl(new_board, opposite(player), depth + 1);
+            let score = -self.negamax_impl(new_board, player.opposite(), depth + 1);
 
             best_score = cmp::max(best_score, score);
         }
@@ -62,16 +57,11 @@ impl AutomatedPlayer {
         let mut best_score = isize::MIN;
         let mut best_move = (0, 0);
 
-        let cell_type = match self.player {
-            Player::X => Cell::X,
-            Player::O => Cell::O,
-        };
-
         for (row, col) in empty_squares {
             let mut wip_board = *board;
-            wip_board.set(cell_type, row, col);
+            wip_board.set(self.player.cell(), row, col);
 
-            let score = -self.negamax(wip_board, opposite(self.player));
+            let score = -self.negamax(wip_board, self.player.opposite());
 
             if score > best_score {
                 best_score = score;

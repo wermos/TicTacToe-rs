@@ -24,6 +24,22 @@ pub enum Player {
     O,
 }
 
+impl Player {
+    pub fn opposite(self) -> Player {
+        match self {
+            Player::X => Player::O,
+            Player::O => Player::X,
+        }
+    }
+
+    pub fn cell(self) -> Cell {
+        match self {
+            Player::X => Cell::X,
+            Player::O => Cell::O,
+        }
+    }
+}
+
 impl fmt::Display for Player {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
@@ -42,11 +58,4 @@ pub enum PlayerType {
 pub enum GameResult {
     Win(Player),
     Draw,
-}
-
-pub fn opposite(player: Player) -> Player {
-    match player {
-        Player::X => Player::O,
-        Player::O => Player::X,
-    }
 }

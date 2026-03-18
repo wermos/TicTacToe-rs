@@ -2,7 +2,7 @@ use std::io;
 use std::io::Write;
 use std::process;
 use tictactoe_rs::automated_player::AutomatedPlayer;
-use tictactoe_rs::definitions::{GameResult, Player, PlayerType, opposite};
+use tictactoe_rs::definitions::{GameResult, Player, PlayerType};
 use tictactoe_rs::game::Game;
 
 fn ask_player_choice() -> Player {
@@ -54,9 +54,9 @@ fn main() {
     let mut game = Game::new();
 
     let human = ask_player_choice();
-    let ai = AutomatedPlayer::new(opposite(human));
+    let ai = AutomatedPlayer::new(human.opposite());
 
-    println!("You are {}\nComputer is {}", human, opposite(human));
+    println!("You are {}\nComputer is {}", human, human.opposite());
 
     let players = match human {
         Player::X => [(Player::X, PlayerType::Human), (Player::O, PlayerType::AI)],
