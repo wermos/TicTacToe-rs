@@ -10,12 +10,10 @@
 
 #### Performance
 
-1. Add tracking for number of nodes searched.
-2. Use a flat board (`[Cell; 9]`) instead of (`[[Cell; 3]; 3]`)?
-3. Implement alpha-beta pruning for the negamax implementation.
-4. Use bitboards/masks instead of win coordinates to check for win?
-5. Add `ittapi` performance measuring to the engine stuff and avoid benchmarking the UI/user input stuff.
-6. Add support for this style of inputs:
+1. Implement alpha-beta pruning for the negamax implementation.
+2. Use bitboards/masks instead of win coordinates to check for win?
+3. Add `ittapi` performance measuring to the engine stuff and avoid benchmarking the UI/user input stuff.
+4. Add support for this style of outputs:
 ```rust
 Position: midgame
 Nodes searched: 549946

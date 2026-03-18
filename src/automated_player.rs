@@ -1,9 +1,14 @@
 use crate::board::Board;
 use crate::definitions::Player;
 use std::cmp;
+use std::time::Instant;
 
 pub struct AutomatedPlayer {
     player: Player, // am I X or O?
+}
+
+struct SearchStats {
+    pub nodes: usize,
 }
 
 impl AutomatedPlayer {
@@ -28,7 +33,15 @@ impl AutomatedPlayer {
         }
     }
 
-    fn negamax_impl(&self, board: Board, player: Player, depth: usize) -> isize {
+    fn negamax_impl(
+        &self,
+        board: Board,
+        player: Player,
+        depth: usize,
+        stats: &mut SearchStats,
+    ) -> isize {
+        stats.nodes += 1;
+
         if board.is_full() || board.winner().is_some() {
             return AutomatedPlayer::evaluate(board, player, depth);
         }
@@ -39,7 +52,7 @@ impl AutomatedPlayer {
             let mut new_board = board;
             new_board.set(player.cell(), row, col);
 
-            let score = -self.negamax_impl(new_board, player.opposite(), depth + 1);
+            let score = -self.negamax_impl(new_board, player.opposite(), depth + 1, stats);
 
             best_score = cmp::max(best_score, score);
         }
@@ -47,11 +60,15 @@ impl AutomatedPlayer {
         best_score
     }
 
-    fn negamax(&self, board: Board, player: Player) -> isize {
-        self.negamax_impl(board, player, 0)
+    fn negamax(&self, board: Board, player: Player, stats: &mut SearchStats) -> isize {
+        self.negamax_impl(board, player, 0, stats)
     }
 
     pub fn choose_move(&self, board: &Board) -> (usize, usize) {
+        let start = Instant::now();
+
+        let mut stats = SearchStats { nodes: 0 };
+
         let empty_squares = board.empty_squares();
 
         let mut best_score = isize::MIN;
@@ -61,13 +78,20 @@ impl AutomatedPlayer {
             let mut wip_board = *board;
             wip_board.set(self.player.cell(), row, col);
 
-            let score = -self.negamax(wip_board, self.player.opposite());
+            let score = -self.negamax(wip_board, self.player.opposite(), &mut stats);
 
             if score > best_score {
                 best_score = score;
                 best_move = (row, col);
             }
         }
+
+        let duration = start.elapsed();
+        let seconds = duration.as_secs_f64();
+
+        println!("Nodes searched: {}", stats.nodes);
+        println!("Time: {:.3} ms", seconds * 1000.0);
+        println!("Nodes/sec: {:.2}M", stats.nodes as f64 / seconds / 1e6);
 
         best_move
     }
