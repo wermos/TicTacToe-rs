@@ -38,6 +38,8 @@ impl AutomatedPlayer {
         board: Board,
         player: Player,
         depth: usize,
+        mut alpha: isize,
+        beta: isize,
         stats: &mut SearchStats,
     ) -> isize {
         stats.nodes += 1;
@@ -52,16 +54,28 @@ impl AutomatedPlayer {
             let mut new_board = board;
             new_board.set(player.cell(), row, col);
 
-            let score = -self.negamax_impl(new_board, player.opposite(), depth + 1, stats);
+            let score = -self.negamax_impl(
+                new_board,
+                player.opposite(),
+                depth + 1,
+                -beta,
+                -alpha,
+                stats,
+            );
 
             best_score = cmp::max(best_score, score);
+            alpha = cmp::max(alpha, score);
+
+            if alpha >= beta {
+                break;
+            }
         }
 
         best_score
     }
 
     fn negamax(&self, board: Board, player: Player, stats: &mut SearchStats) -> isize {
-        self.negamax_impl(board, player, 0, stats)
+        self.negamax_impl(board, player, 0, isize::MIN, isize::MAX, stats)
     }
 
     pub fn choose_move(&self, board: &Board) -> (usize, usize) {
