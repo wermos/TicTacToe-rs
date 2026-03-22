@@ -12,6 +12,8 @@ struct SearchStats {
 }
 
 impl AutomatedPlayer {
+    const INF: isize = 100;
+
     pub fn new(self_player: Player) -> Self {
         AutomatedPlayer {
             player: self_player,
@@ -48,7 +50,7 @@ impl AutomatedPlayer {
             return AutomatedPlayer::evaluate(board, player, depth);
         }
 
-        let mut best_score = isize::MIN;
+        let mut best_score = -AutomatedPlayer::INF;
 
         for (row, col) in board.empty_squares() {
             let mut new_board = board;
@@ -75,7 +77,14 @@ impl AutomatedPlayer {
     }
 
     fn negamax(&self, board: Board, player: Player, stats: &mut SearchStats) -> isize {
-        self.negamax_impl(board, player, 0, isize::MIN, isize::MAX, stats)
+        self.negamax_impl(
+            board,
+            player,
+            0,
+            -AutomatedPlayer::INF,
+            AutomatedPlayer::INF,
+            stats,
+        )
     }
 
     pub fn choose_move(&self, board: &Board) -> (usize, usize) {
