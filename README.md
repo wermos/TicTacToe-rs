@@ -14,14 +14,19 @@
 1. Implement alpha-beta pruning for the negamax implementation.
 2. Use bitboards/masks instead of win coordinates to check for win?
 3. Add `ittapi` performance measuring to the engine stuff and avoid benchmarking the UI/user input stuff.
-4. Add support for this style of outputs:
-```rust
+4. ~Add support for this style of outputs:~
+<strike>
+
+```text
 Position: midgame
 Nodes searched: 549946
 Time: 2.1ms
 Nodes/sec: 261M
 ```
+
+</strike>
 7. Write a stress test for the engine:
+
 ```
 stress_test():
     generate a set of boards
@@ -29,7 +34,9 @@ stress_test():
     for board in boards:
         ai.choose_move(board)
 ```
+
 Examples of stress testing positions:
+
 ```
 Opening:
 . . .
@@ -51,9 +58,11 @@ X O X
 O X .
 . O .
 ```
+
 Or something like:
+
 ```
-repeat 10000 times
+repeat 10000 times:
     generate random legal position
     run search
 ```
@@ -70,6 +79,7 @@ repeat 10000 times
     - if valid → break
     - else → print error and repeat
 2. Show numbers in only the empty cells:
+
 ```text
  X | O | X
 ---+---+---
@@ -77,7 +87,9 @@ repeat 10000 times
 ---+---+---
  7 | O | 9
 ```
+
 3. Better flow:
+
 ```text
 You are X
 Computer is O
@@ -86,13 +98,17 @@ Your move (X):
 
 Computer plays: 5
 ```
+
 3. Redraw the board in-place.
+
 ```text
 clear screen
 print board
 prompt move
 ```
+
 4. Colored input:
+
 ```text
 X → blue
 O → red
@@ -103,6 +119,7 @@ winning line → green
 
 1. `GameResult` should have a `None` variant so that we don't need to use `Option<GameResult>` in `result` function.
 2. Try doing something like this:
+
 ```rust
 struct Players {
     x: PlayerType,
@@ -111,6 +128,7 @@ struct Players {
 
 match players.get(player)
 ```
+
 3. Implement a `Move` struct that encapsulates a move. (store `usize` or `(usize, usize)`?)
 
 </details>
