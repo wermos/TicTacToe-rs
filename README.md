@@ -1,6 +1,7 @@
 # TicTacToe-rs
 
-## Ideas for Improvements
+<details>
+    <summary>Ideas for Improvements</summary>
 
 ### Engine
 
@@ -111,3 +112,5 @@ struct Players {
 match players.get(player)
 ```
 3. Implement a `Move` struct that encapsulates a move. (store `usize` or `(usize, usize)`?)
+
+</details>
