@@ -8,6 +8,7 @@ use std::io::Write;
 use std::process;
 use automated_player::AutomatedPlayer;
 use definitions::{GameResult, Player, PlayerType};
+use board::Position;
 use game::Game;
 
 fn ask_player_choice() -> Player {
@@ -32,7 +33,7 @@ fn ask_player_choice() -> Player {
     }
 }
 
-fn get_player_move() -> (usize, usize) {
+fn get_player_move() -> Position {
     println!(" 1 │ 2 │ 3");
     println!("───┼───┼───");
     println!(" 4 │ 5 │ 6");
@@ -73,12 +74,12 @@ fn main() {
 
         let player = game.current_player();
 
-        let (row, col) = match players[player as usize].1 {
+        let pos = match players[player as usize].1 {
             PlayerType::Human => get_player_move(),
             PlayerType::AI => ai.choose_move(&game.board()),
         };
 
-        game.make_move(player, row, col);
+        game.make_move(pos, player);
     }
 
     game.print_board();

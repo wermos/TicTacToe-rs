@@ -3,13 +3,15 @@ use crate::definitions::Player;
 use std::fmt;
 use std::ops::{Index, IndexMut};
 
+pub(crate) type Position = (usize, usize);
+
 #[derive(Clone, Copy)]
 pub struct Board {
     board: [[Cell; 3]; 3],
 }
 
 impl Board {
-    const POSSIBLE_WINS: [[(usize, usize); 3]; 8] = [
+    const POSSIBLE_WINS: [[Position; 3]; 8] = [
         [(0, 0), (0, 1), (0, 2)],
         [(1, 0), (1, 1), (1, 2)],
         [(2, 0), (2, 1), (2, 2)],
@@ -30,7 +32,7 @@ impl Board {
         self.board.iter().flatten().all(|&cell| cell.is_empty())
     }
 
-    pub fn empty_squares(&self) -> Vec<(usize, usize)> {
+    pub fn empty_squares(&self) -> Vec<Position> {
         let mut squares = Vec::new();
 
         for r in 0..3 {
@@ -46,11 +48,11 @@ impl Board {
 
     pub fn winner(&self) -> Option<Player> {
         Self::POSSIBLE_WINS.iter().find_map(|line| {
-            let [(r1, c1), (r2, c2), (r3, c3)] = *line;
+            let [p1, p2, p3] = *line;
 
-            let a = self.board[r1][c1];
-            let b = self.board[r2][c2];
-            let c = self.board[r3][c3];
+            let a = self[p1];
+            let b = self[p2];
+            let c = self[p3];
 
             if a == b && b == c { a.player() } else { None }
         })
@@ -82,16 +84,16 @@ impl fmt::Display for Board {
     }
 }
 
-impl Index<(usize, usize)> for Board {
+impl Index<Position> for Board {
     type Output = Cell;
 
-    fn index(&self, index: (usize, usize)) -> &Self::Output {
+    fn index(&self, index: Position) -> &Self::Output {
         &self.board[index.0][index.1]
     }
 }
 
-impl IndexMut<(usize, usize)> for Board {
-    fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
+impl IndexMut<Position> for Board {
+    fn index_mut(&mut self, index: Position) -> &mut Self::Output {
         &mut self.board[index.0][index.1]
     }
 }

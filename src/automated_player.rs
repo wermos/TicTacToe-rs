@@ -1,4 +1,4 @@
-use crate::board::Board;
+use crate::board::{Board, Position};
 use crate::definitions::Player;
 use std::cmp;
 use std::time::Instant;
@@ -87,7 +87,7 @@ impl AutomatedPlayer {
         )
     }
 
-    pub fn choose_move(&self, board: &Board) -> (usize, usize) {
+    pub fn choose_move(&self, board: &Board) -> Position {
         let start = Instant::now();
 
         let mut stats = SearchStats { nodes: 0 };

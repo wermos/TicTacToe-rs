@@ -1,4 +1,4 @@
-use crate::board::Board;
+use crate::board::{Board, Position};
 use crate::definitions::{GameResult, Player};
 
 pub struct Game {
@@ -14,8 +14,8 @@ impl Game {
         }
     }
 
-    pub fn make_move(&mut self, player: Player, row: usize, col: usize) {
-        self.board[(row, col)] = player.into();
+    pub fn make_move(&mut self, pos: Position, player: Player) {
+        self.board[pos] = player.into();
 
         self.current_turn = self.current_turn.opposite();
     }
