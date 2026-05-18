@@ -1,6 +1,7 @@
 use crate::definitions::Cell;
 use crate::definitions::Player;
 use std::fmt;
+use std::ops::{Index, IndexMut};
 
 #[derive(Clone, Copy)]
 pub struct Board {
@@ -23,10 +24,6 @@ impl Board {
         Board {
             board: [[Cell::default(); 3]; 3],
         }
-    }
-
-    pub fn set(&mut self, cell: Cell, row: usize, col: usize) {
-        self.board[row][col] = cell;
     }
 
     pub fn is_full(&self) -> bool {
@@ -82,5 +79,19 @@ impl fmt::Display for Board {
         writeln!(fmt, " {} │ {} │ {}", g, h, i)?;
 
         Ok(())
+    }
+}
+
+impl Index<(usize, usize)> for Board {
+    type Output = Cell;
+
+    fn index(&self, index: (usize, usize)) -> &Self::Output {
+        &self.board[index.0][index.1]
+    }
+}
+
+impl IndexMut<(usize, usize)> for Board {
+    fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
+        &mut self.board[index.0][index.1]
     }
 }
