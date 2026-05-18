@@ -1,9 +1,14 @@
+pub mod automated_player;
+pub mod board;
+pub mod definitions;
+pub mod game;
+
 use std::io;
 use std::io::Write;
 use std::process;
-use tictactoe_rs::automated_player::AutomatedPlayer;
-use tictactoe_rs::definitions::{GameResult, Player, PlayerType};
-use tictactoe_rs::game::Game;
+use automated_player::AutomatedPlayer;
+use definitions::{GameResult, Player, PlayerType};
+use game::Game;
 
 fn ask_player_choice() -> Player {
     print!(
