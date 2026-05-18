@@ -1,5 +1,5 @@
 use crate::board::Board;
-use crate::definitions::{Cell, GameResult, Player};
+use crate::definitions::{GameResult, Player};
 
 pub struct Game {
     board: Board,
@@ -15,10 +15,7 @@ impl Game {
     }
 
     pub fn make_move(&mut self, player: Player, row: usize, col: usize) {
-        match player {
-            Player::X => self.board.set(Cell::X, row, col),
-            Player::O => self.board.set(Cell::O, row, col),
-        }
+        self.board.set(player.cell(), row, col);
 
         self.current_turn = self.current_turn.opposite();
     }

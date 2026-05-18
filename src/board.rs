@@ -21,7 +21,7 @@ impl Board {
 
     pub fn new() -> Self {
         Board {
-            board: [[Cell::None; 3]; 3],
+            board: [[Cell::default(); 3]; 3],
         }
     }
 
@@ -30,7 +30,7 @@ impl Board {
     }
 
     pub fn is_full(&self) -> bool {
-        self.board.iter().flatten().all(|&cell| cell != Cell::None)
+        self.board.iter().flatten().all(|&cell| cell.is_empty())
     }
 
     pub fn empty_squares(&self) -> Vec<(usize, usize)> {
@@ -38,7 +38,7 @@ impl Board {
 
         for r in 0..3 {
             for c in 0..3 {
-                if self.board[r][c] == Cell::None {
+                if self.board[r][c].is_empty() {
                     squares.push((r, c));
                 }
             }
@@ -56,11 +56,7 @@ impl Board {
             let c = self.board[r3][c3];
 
             if a == b && b == c {
-                match a {
-                    Cell::X => Some(Player::X),
-                    Cell::O => Some(Player::O),
-                    Cell::None => None,
-                }
+                a.player()
             } else {
                 None
             }

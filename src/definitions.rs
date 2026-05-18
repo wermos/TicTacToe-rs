@@ -1,20 +1,31 @@
 use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
-pub enum Cell {
-    X,
-    O,
-    None,
+pub struct Cell(Option<Player>);
+
+impl Cell {
+    pub(crate) fn is_empty(&self) -> bool {
+        self.0.is_none()
+    }
+
+    pub(crate) fn player(&self) -> Option<Player> {
+        self.0
+    }
 }
 
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            Cell::X => write!(f, "X")?,
-            Cell::O => write!(f, "O")?,
-            Cell::None => write!(f, " ")?,
+            Cell(Some(p)) => write!(f, "{}", p)?,
+            Cell(None) => write!(f, " ")?,
         }
         Ok(())
+    }
+}
+
+impl Default for Cell {
+    fn default() -> Self {
+        Cell(None)
     }
 }
 
@@ -33,10 +44,7 @@ impl Player {
     }
 
     pub fn cell(self) -> Cell {
-        match self {
-            Player::X => Cell::X,
-            Player::O => Cell::O,
-        }
+        Cell(Some(self))
     }
 }
 
