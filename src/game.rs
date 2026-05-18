@@ -1,5 +1,5 @@
 use crate::board::{Board, Position};
-use crate::definitions::{GameResult, Player};
+use crate::definitions::{GameOutcome, Player};
 
 pub struct Game {
     board: Board,
@@ -37,11 +37,11 @@ impl Game {
         !self.board.is_full() && self.board.winner().is_none()
     }
 
-    pub fn result(&self) -> Option<GameResult> {
+    pub fn outcome(&self) -> Option<GameOutcome> {
         if let Some(player) = self.board.winner() {
-            Some(GameResult::Win(player))
+            Some(GameOutcome::Win(player))
         } else if self.board.is_full() {
-            Some(GameResult::Draw)
+            Some(GameOutcome::Draw)
         } else {
             None
         }

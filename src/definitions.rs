@@ -65,7 +65,7 @@ pub enum PlayerType {
     AI,
 }
 
-pub enum GameResult {
+pub enum GameOutcome {
     Win(Player),
     Draw,
 }

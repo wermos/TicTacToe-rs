@@ -7,7 +7,7 @@ use std::io;
 use std::io::Write;
 use std::process;
 use automated_player::AutomatedPlayer;
-use definitions::{GameResult, Player, PlayerType};
+use definitions::{GameOutcome, Player, PlayerType};
 use board::Position;
 use game::Game;
 
@@ -69,7 +69,7 @@ fn main() {
         Player::O => [(Player::X, PlayerType::AI), (Player::O, PlayerType::Human)],
     };
 
-    while game.result().is_none() {
+    while game.outcome().is_none() {
         game.print_board();
 
         let player = game.current_player();
@@ -84,10 +84,10 @@ fn main() {
 
     game.print_board();
 
-    let result = game.result().unwrap();
+    let result = game.outcome().unwrap();
 
     match result {
-        GameResult::Win(player) => println!("The winner was {player}."),
-        GameResult::Draw => println!("The game was a draw."),
+        GameOutcome::Win(player) => println!("The winner was {player}."),
+        GameOutcome::Draw => println!("The game was a draw."),
     }
 }
