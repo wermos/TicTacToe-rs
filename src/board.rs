@@ -55,11 +55,7 @@ impl Board {
             let b = self.board[r2][c2];
             let c = self.board[r3][c3];
 
-            if a == b && b == c {
-                a.player()
-            } else {
-                None
-            }
+            if a == b && b == c { a.player() } else { None }
         })
     }
 }
@@ -71,24 +67,20 @@ impl Default for Board {
 }
 
 impl fmt::Display for Board {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(
-            f,
-            " {} │ {} │ {}",
-            self.board[0][0], self.board[0][1], self.board[0][2]
-        )?;
-        writeln!(f, "───┼───┼───")?;
-        writeln!(
-            f,
-            " {} │ {} │ {}",
-            self.board[1][0], self.board[1][1], self.board[1][2]
-        )?;
-        writeln!(f, "───┼───┼───")?;
-        writeln!(
-            f,
-            " {} │ {} │ {}",
-            self.board[2][0], self.board[2][1], self.board[2][2]
-        )?;
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // This formatting is non-standard but helps readability. This rustfmt annotation
+        // lets us disable the formatter for this one particular statement.
+        #[rustfmt::skip]
+        let [[a, b, c],
+             [d, e, f],
+             [g, h, i]] = self.board;
+
+        writeln!(fmt, " {} │ {} │ {}", a, b, c)?;
+        writeln!(fmt, "───┼───┼───")?;
+        writeln!(fmt, " {} │ {} │ {}", d, e, f)?;
+        writeln!(fmt, "───┼───┼───")?;
+        writeln!(fmt, " {} │ {} │ {}", g, h, i)?;
+
         Ok(())
     }
 }
