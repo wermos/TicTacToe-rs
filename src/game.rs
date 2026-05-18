@@ -15,7 +15,7 @@ impl Game {
     }
 
     pub fn make_move(&mut self, player: Player, row: usize, col: usize) {
-        self.board.set(player.cell(), row, col);
+        self.board.set(player.into(), row, col);
 
         self.current_turn = self.current_turn.opposite();
     }

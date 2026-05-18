@@ -29,6 +29,12 @@ impl Default for Cell {
     }
 }
 
+impl From<Player> for Cell {
+    fn from(player: Player) -> Self {
+        Cell(Some(player))
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Player {
     X,
@@ -41,10 +47,6 @@ impl Player {
             Player::X => Player::O,
             Player::O => Player::X,
         }
-    }
-
-    pub fn cell(self) -> Cell {
-        Cell(Some(self))
     }
 }
 
