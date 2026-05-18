@@ -1,5 +1,5 @@
-use crate::board::Board;
-use crate::definitions::{Cell, GameResult, Player};
+use crate::board::{Board, Position};
+use crate::definitions::{GameOutcome, Player};
 
 pub struct Game {
     board: Board,
@@ -14,11 +14,8 @@ impl Game {
         }
     }
 
-    pub fn make_move(&mut self, player: Player, row: usize, col: usize) {
-        match player {
-            Player::X => self.board.set(Cell::X, row, col),
-            Player::O => self.board.set(Cell::O, row, col),
-        }
+    pub fn make_move(&mut self, pos: Position, player: Player) {
+        self.board[pos] = player.into();
 
         self.current_turn = self.current_turn.opposite();
     }
@@ -40,11 +37,11 @@ impl Game {
         !self.board.is_full() && self.board.winner().is_none()
     }
 
-    pub fn result(&self) -> Option<GameResult> {
+    pub fn outcome(&self) -> Option<GameOutcome> {
         if let Some(player) = self.board.winner() {
-            Some(GameResult::Win(player))
+            Some(GameOutcome::Win(player))
         } else if self.board.is_full() {
-            Some(GameResult::Draw)
+            Some(GameOutcome::Draw)
         } else {
             None
         }

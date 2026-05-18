@@ -1,4 +1,4 @@
-use crate::board::Board;
+use crate::board::{Board, Position};
 use crate::definitions::Player;
 use std::cmp;
 use std::time::Instant;
@@ -52,9 +52,9 @@ impl AutomatedPlayer {
 
         let mut best_score = -AutomatedPlayer::INF;
 
-        for (row, col) in board.empty_squares() {
+        for pos in board.empty_squares() {
             let mut new_board = board;
-            new_board.set(player.cell(), row, col);
+            new_board[pos] = player.into();
 
             let score = -self.negamax_impl(
                 new_board,
@@ -87,7 +87,7 @@ impl AutomatedPlayer {
         )
     }
 
-    pub fn choose_move(&self, board: &Board) -> (usize, usize) {
+    pub fn choose_move(&self, board: &Board) -> Position {
         let start = Instant::now();
 
         let mut stats = SearchStats { nodes: 0 };
@@ -97,15 +97,15 @@ impl AutomatedPlayer {
         let mut best_score = isize::MIN;
         let mut best_move = (0, 0);
 
-        for (row, col) in empty_squares {
+        for pos in empty_squares {
             let mut wip_board = *board;
-            wip_board.set(self.player.cell(), row, col);
+            wip_board[pos] = self.player.into();
 
             let score = -self.negamax(wip_board, self.player.opposite(), &mut stats);
 
             if score > best_score {
                 best_score = score;
-                best_move = (row, col);
+                best_move = pos;
             }
         }
 

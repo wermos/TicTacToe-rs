@@ -1,9 +1,15 @@
+pub mod automated_player;
+pub mod board;
+pub mod definitions;
+pub mod game;
+
 use std::io;
 use std::io::Write;
 use std::process;
-use tictactoe_rs::automated_player::AutomatedPlayer;
-use tictactoe_rs::definitions::{GameResult, Player, PlayerType};
-use tictactoe_rs::game::Game;
+use automated_player::AutomatedPlayer;
+use definitions::{GameOutcome, Player, PlayerType};
+use board::Position;
+use game::Game;
 
 fn ask_player_choice() -> Player {
     print!(
@@ -27,7 +33,7 @@ fn ask_player_choice() -> Player {
     }
 }
 
-fn get_player_move() -> (usize, usize) {
+fn get_player_move() -> Position {
     println!(" 1 │ 2 │ 3");
     println!("───┼───┼───");
     println!(" 4 │ 5 │ 6");
@@ -63,25 +69,25 @@ fn main() {
         Player::O => [(Player::X, PlayerType::AI), (Player::O, PlayerType::Human)],
     };
 
-    while game.result().is_none() {
+    while game.outcome().is_none() {
         game.print_board();
 
         let player = game.current_player();
 
-        let (row, col) = match players[player as usize].1 {
+        let pos = match players[player as usize].1 {
             PlayerType::Human => get_player_move(),
             PlayerType::AI => ai.choose_move(&game.board()),
         };
 
-        game.make_move(player, row, col);
+        game.make_move(pos, player);
     }
 
     game.print_board();
 
-    let result = game.result().unwrap();
+    let result = game.outcome().unwrap();
 
     match result {
-        GameResult::Win(player) => println!("The winner was {player}."),
-        GameResult::Draw => println!("The game was a draw."),
+        GameOutcome::Win(player) => println!("The winner was {player}."),
+        GameOutcome::Draw => println!("The game was a draw."),
     }
 }
